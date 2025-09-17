@@ -24,12 +24,13 @@ public class BST {
      */
     public BST() {
         root = null;
-        // left and right default to being null
+        this.left = null;
+        this.right = null;
     }
 
 
     public boolean isEmpty() {
-        return false; // TODO implement me!
+        return root == null;
     }
 
     public boolean contains(int item) {
@@ -47,33 +48,101 @@ public class BST {
 
 
     public void insert(int item) {
-
+        if (this.isEmpty()) {
+            this.root = item;
+            this.left = new BST();
+            this.right = new BST();
+        }
+        else if (item >= this.root) {
+            this.right.insert(item);
+        }
+        else  {
+            this.left.insert(item);
+        }
     }
 
 
     public void delete(int item) {
-
+        if (!this.isEmpty()) {
+            if (this.root.equals(item)) {
+                this.deleteRoot();
+            }
+            else if (item < this.root) {
+                this.left.delete(item);
+            }
+            else {
+                this.right.delete(item);
+            }
+        }
     }
-
     private void deleteRoot() {
+        if (this.left.isEmpty() && this.right.isEmpty()) {
+            this.root = null;
+            this.left = null;
+            this.right = null;
+        }
+        else if  (this.left.isEmpty()) {
+            this.root = this.right.root;
+            this.left = this.right.left;
+            this.right = this.right.right;
+        }
+        else if (this.right.isEmpty()) {
+            this.root = this.left.root;
+            this.right = this.left.right;
+            this.left =  this.left.left;
+        }
+        else {
+            int value = this.left.extractMax();
+            this.root = value;
 
+
+        }
     }
 
 
     private int extractMax() {
-        return -1;
+        int num;
+        if (this.right.isEmpty()) {
+            num = this.root;
+            this.root = this.left.root;
+            this.right = this.left.right;
+            this.left = this.left.left;
+        }
+        else{
+            num = this.right.extractMax();
+        }
+        return num;
     }
 
     public int height() {
-        return -1;
+        if (this.isEmpty()) {
+            return 0;
+        }
+        return 1 + Math.max(this.left.height(), this.right.height());
     }
 
     public int count(int item) {
-        return -1;
+        if (this.isEmpty()) {
+            return 0;
+        }
+        int total;
+        if (this.root.equals(item)) {
+            total = 1 + this.left.count(item) + this.right.count(item);
+        }
+        else if  (this.root < item) {
+            total = this.right.count(item);
+        }
+        else {
+            total = this.left.count(item);
+        }
+        return total;
     }
 
     public int getSize() {
-        return -1;
+        if (this.isEmpty()) {
+            return 0;
+        }
+        return 1 + this.left.getSize() + this.right.getSize();
     }
 
     public static void main(String[] args) {
@@ -84,7 +153,6 @@ public class BST {
         BST bst = new BST();
         int a = 1;
         bst.insert(a);
-        System.out.println(bst.contains(a));
     }
 
 }
