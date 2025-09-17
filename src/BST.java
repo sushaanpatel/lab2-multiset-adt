@@ -92,8 +92,7 @@ public class BST {
             this.left =  this.left.left;
         }
         else {
-            int value = this.left.extractMax();
-            this.root = value;
+            this.root = this.left.extractMax();
 
 
         }
