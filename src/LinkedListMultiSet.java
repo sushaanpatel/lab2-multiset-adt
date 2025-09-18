@@ -27,8 +27,8 @@ public class LinkedListMultiSet extends MultiSet {
     public void remove(int item) {
         Node current = front;
         Node previous = null;
-        while(current.next != null) {
-            if(current.next.item == item) {
+        while(current != null) {
+            if(current.item == item) {
                 size -= 1;
                 if (previous != null){
                     previous.next = current.next;
@@ -40,6 +40,7 @@ public class LinkedListMultiSet extends MultiSet {
             previous = current;
             current = current.next;
         }
+
     }
 
     public boolean contains(int item) {
@@ -74,3 +75,4 @@ public class LinkedListMultiSet extends MultiSet {
         return size;
     }
 }
+
